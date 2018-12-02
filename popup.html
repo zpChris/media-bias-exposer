@@ -5,28 +5,117 @@
   <!-- Head basic rules -->
   <meta charset=utf-8 />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timely</title>
+  <title>No Bias News</title>
   <link rel="stylesheet" href="main.css">
-  <!-- JavaScript link to HTML doc -->
-  <script src="popup.js"></script>
-  <script src="chart.min.js"></script>
-  <script src="chart.js"></script>
+  <!-- Firebase connection -->
+  <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
 </head>
 
 <body>
-  <div class="standard-page">
-    <div id="sp-header">Timely</div>
+  <!-- STANDARD SITE when extension not loading or not on news site-->
+  <div id="loaded-standard-site">
+    <div id="heading">
+      <h2 id="header">No Bias News <img src="images/no-bias-news-128.png" width="20px" /></h2>
+      <a href="https://openlensresearch.weebly.com/" target="_blank"><img id="open-lens-heading-tag" src="images/open-lens-made-by-logo.png" width="125px"/></a>
+    </div>
     <hr>
-    <div class="sp-sitetrack">
-      <div id="sp-current"><span id="sp-weblink">...</span>: <span id="sp-webtimer">...</span></div>
+    <div id="section-header">
+      About
+    </div>
+    <div id="section-p">
+      No Bias News better educates readers by clearly displaying news 
+      sources' biases and backgrounds when visiting their site.
+    </div>
+    <div id="section-header">
+      Methodology
+    </div>
+    <div id="section-p">
+      We gather our information from <a href="https://mediabiasfactcheck.com/" target="_blank">Media Bias Fact Check</a> 
+      as well as other sources - these are shown when visiting their news page (see <a href="https://www.theatlantic.com/" target="_blank">The Atlantic</a> as an example).
+    </div>
+    <div id="section-header">
+      The Makers
+    </div>
+    <div id="section-p">
+      Open Lens is a student-led group dedicated to promoting transparency across 
+      business, government, and society. Check out our blog <a href="https://medium.com/open-lens" target="_blank">here</a>.
+    </div>
+    <hr>
+    <div id="section-p">
+      Contact: <a href="mailto:support@openlens.net" target="_blank">research@openlens.net</a>
+      Request to add news source: 
+      <a href="mailto:research@openlens.net?subject=Add a News Source&body=Please add the following news source:" target="_blank">here</a>.
     </div>
   </div>
-  <input type="button" value="Clear Storage" id="sp-clear-storage" />
-  <canvas id="myChart" width="400" height="400"></canvas>
-</body>
+  <!-- FULL-SCREEN LOADING ICON (200x200 screen size, 100x100 loading icon size).
+       Display settings managed in popup.js. -->
+  <div id="loading-site">
+    <div id="container">
+      <div id="circle"></div>
+    </div>
+  </div>
 
-<script src="popup.js"></script>
-<script src="chart.min.js"></script>
-<script src="chart.js"></script>
+  <!-- FULL LOADED NEWS SITE, will load if news site URL is in database
+       Loading icon in news site (...) has no effect, as the div 
+       #loaded-news-site will load once the first asynchronous callback 
+       (which is the #company-name) is fetched from the database. If
+       a section does not have the corresponding information in the 
+       database, that section's display is set to "none" from popup.js. -->
+  <div id="loaded-news-site">
+
+    <!-- Company name and bias button, #bias-button href changes to email
+         or link to bias example based on whether or not that exists for 
+         the particular news source. -->
+    <h2 id="company-name">...</h2>
+    <a id="bias-button" href="https://example.com" target="_blank">
+      <div id="bias-rating">...</div>
+      <div id="bias-example">View Example</div>
+    </a>
+
+    <!-- Small tooltip to explain the bias rating and example -->
+    <div id="tooltip">What's this?
+      <span id="tooltiptext">
+        This is a bias rating based on Media Bias Fact Check, along with 
+        an example of a biased article found by Open Lens.
+      </span>
+    </div>
+
+    <hr>
+
+    <!-- More info section includes:
+          -Factual Reporting ranking
+          -Notable Awards
+          -Parent Company
+         The section will always include something as factual reporting is 
+         provided by MBFC, and thus is available for every news organization -->
+    <div id="more-info">
+      <div id="more-info-header">More Info</div>
+      <div class="small-header" id="factual-reporting-header">Factual Reporting</div>
+      <div id="factual-reporting">...</div>
+      <div class="small-header" id="notable-awards-header">Notable Awards</div>
+      <div id="notable-awards">...</div>
+      <div class="small-header" id="parent-company-header">Parent Company</div>
+      <div id="parent-company">...</div>
+    </div>
+
+    <hr>
+
+    <!-- Footer includes sources and an ending Open Lens tag. The sources are
+         filled in by JavaScript directly from the backend - if there are no
+         sources, nothing is added, and #sources-header disappears. -->
+    <div id="footer">
+      <div id="sources-header">Sources:
+        <span id="sources"></span>
+      </div>
+      <div id="open-lens-tag"><a href="https://openlensresearch.weebly.com/" target="_blank"><img src="images/open-lens-made-by-logo.png" width="150px" margin="0px"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase connection (must be before JavaScript link) -->
+  <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+  <!-- JavaScript link to HTML doc -->
+  <script src="popup.js"></script>
+</body>
 
 </html>
